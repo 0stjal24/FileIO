@@ -9,6 +9,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -51,6 +53,24 @@ public class fileio extends AppCompatActivity {
             return true;
         }
         else if (item.getItemId() == R.id.load) {
+
+            try{
+                FileReader fr = new FileReader(dir_path + "/notes.txt");
+                BufferedReader br = new BufferedReader(fr);
+
+                String line;
+                while((line = br.readLine()) != null)
+                {
+                    System.out.println(line);
+                }
+
+                br.close();
+
+            }
+            catch(IOException e) {
+                System.out.println("Error! " + e.getMessage());
+            }
+
 
             return true;
         }
