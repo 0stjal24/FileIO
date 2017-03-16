@@ -1,5 +1,6 @@
 package com.example.a0stjal24.fileio;
 
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -20,32 +21,42 @@ public class fileio extends AppCompatActivity {
         setContentView(R.layout.activity_fileio);
     }
 
-    public void onClick(View view)
-    {
-        EditText et = (EditText)findViewById(R.id.et1);
-    }
-
+    @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {
-        MenuInflater inflater=getMenuInflater();
-        inflater.inflate(R.menu.menu_texted, menu);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu, menu);
         return true;
-
     }
 
+    @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {
-        if(item.getItemId() == R.id.save) {
-            PrintWriter pw =
-                    new PrintWriter(new FileWriter("data.txt"));
+        String dir_path = Environment.getExternalStorageDirectory().getAbsolutePath();
+        EditText et = (EditText) findViewById(R.id.et1);
 
-            pw.close();
-        }
-        catch(IOException e)
-        {
-            System.out.println("I/O Error: " + e);
+        if (item.getItemId() == R.id.save) {
 
+            try {
+                FileWriter fw = new FileWriter(dir_path + "/notes.txt");
+                PrintWriter pw = new PrintWriter(fw);
+                pw.println(et.getText());
+                pw.flush();
+                pw.close();
+            }
+            catch(IOException e){
+                System.out.println("Error! " + e.getMessage());
+            }
+
+            return true;
         }
-        else
+        else if (item.getItemId() == R.id.load) {
+
+            return true;
+        }
+
+        return false;
     }
+
+
 }
